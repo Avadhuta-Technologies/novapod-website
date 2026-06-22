@@ -1,18 +1,44 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle2, Loader2 } from "lucide-react";
+import { Send, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 
-type Status = "idle" | "submitting" | "success";
+type Status = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState<string>("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
-    // No backend wired yet — simulate submission. Replace with your endpoint.
-    setTimeout(() => setStatus("success"), 900);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const payload = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.ok) {
+        throw new Error(
+          data.error || "Something went wrong. Please try again.",
+        );
+      }
+      setStatus("success");
+    } catch (err) {
+      setStatus("error");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
+    }
   }
 
   if (status === "success") {
@@ -41,6 +67,18 @@ export function ContactForm() {
       onSubmit={handleSubmit}
       className="rounded-2xl border border-ink-100 bg-white p-7 shadow-card sm:p-8"
     >
+      {/* Honeypot — hidden from users, catches bots. */}
+      <div className="absolute left-[-9999px]" aria-hidden="true">
+        <label htmlFor="website">Leave this field empty</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={label}>
@@ -104,6 +142,16 @@ export function ContactForm() {
           placeholder="We process ~5,000 invoices/month across two ERPs and can't use external AI services…"
         />
       </div>
+
+      {status === "error" && (
+        <div
+          role="alert"
+          className="mt-5 flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+        >
+          <AlertCircle className="mt-0.5 h-4.5 w-4.5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
 
       <button
         type="submit"
