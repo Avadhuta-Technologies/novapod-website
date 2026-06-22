@@ -1,0 +1,130 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* ---- Brand: trust blue ---- */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dbe6fe;
+  --color-brand-200: #bfd3fe;
+  --color-brand-300: #93b4fd;
+  --color-brand-400: #608cfa;
+  --color-brand-500: #3b66f5;
+  --color-brand-600: #2549e6;
+  --color-brand-700: #1d39cf;
+  --color-brand-800: #1e31a8;
+  --color-brand-900: #1e2f85;
+  --color-brand-950: #172051;
+
+  /* ---- Ink / neutrals (cool slate) ---- */
+  --color-ink-50: #f6f8fb;
+  --color-ink-100: #eef2f7;
+  --color-ink-200: #dde4ee;
+  --color-ink-300: #c2cedd;
+  --color-ink-400: #8da0b9;
+  --color-ink-500: #61748f;
+  --color-ink-600: #475569;
+  --color-ink-700: #334155;
+  --color-ink-800: #1d2840;
+  --color-ink-900: #0e1730;
+  --color-ink-950: #070d1f;
+
+  /* ---- Accent: signal cyan (used sparingly) ---- */
+  --color-accent-400: #38bdf8;
+  --color-accent-500: #0ea5e9;
+  --color-accent-600: #0284c7;
+
+  /* ---- Fonts ---- */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
+
+  /* ---- Radii ---- */
+  --radius-xl: 0.875rem;
+  --radius-2xl: 1.125rem;
+
+  /* ---- Custom easing / shadows ---- */
+  --shadow-card: 0 1px 2px rgba(14, 23, 48, 0.04), 0 8px 24px -12px rgba(14, 23, 48, 0.12);
+  --shadow-lift: 0 1px 2px rgba(14, 23, 48, 0.05), 0 18px 40px -16px rgba(29, 57, 207, 0.22);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background-color: #ffffff;
+  color: var(--color-ink-800);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+/* Display headings */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Subtle grid / dotted background helper */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(14, 23, 48, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 23, 48, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgba(14, 23, 48, 0.10) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(95deg, var(--color-brand-700), var(--color-brand-500) 55%, var(--color-accent-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Section reveal on scroll */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Prose tweaks for blog */
+.prose :where(h2):not(:where([class~="not-prose"] *)) {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  scroll-margin-top: 6rem;
+}
+.prose :where(h3):not(:where([class~="not-prose"] *)) {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+  scroll-margin-top: 6rem;
+}
+.prose :where(a):not(:where([class~="not-prose"] *)) {
+  color: var(--color-brand-700);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+::selection {
+  background-color: var(--color-brand-200);
+  color: var(--color-ink-900);
+}
