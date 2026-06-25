@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Blog",
   description:
     "Insights on secure document reconciliation, compliant AI deployment, and finance operations automation from the Novapod team.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogIndexPage() {

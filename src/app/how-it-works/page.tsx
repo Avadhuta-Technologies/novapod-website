@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: "How It Works",
   description:
     "How Novapod's document reconciliation pipeline runs end to end inside your infrastructure — extraction, validation, matching, exception handling, and a complete audit trail.",
+  alternates: { canonical: "/how-it-works" },
 };
 
 const stages = [

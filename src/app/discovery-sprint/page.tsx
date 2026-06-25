@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Discovery Sprint",
   description:
     "A fixed-scope engagement that evaluates feasibility, expected accuracy, infrastructure requirements, and ROI before any reconciliation system is built.",
+  alternates: { canonical: "/discovery-sprint" },
 };
 
 const reviewItems = [

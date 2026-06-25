@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Use Cases",
   description:
     "Document reconciliation use cases for finance and operations teams: invoice vs payment, bank statement, vendor verification, claims settlement, and multi-system matching.",
+  alternates: { canonical: "/use-cases" },
 };
 
 const detail: Record<string, { points: string[]; outcome: string }> = {

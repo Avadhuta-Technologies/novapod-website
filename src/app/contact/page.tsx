@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Book a Discovery Call",
   description:
     "Book a 20-minute discovery call to evaluate your reconciliation workflow, compliance constraints, and automation potential.",
+  alternates: { canonical: "/contact" },
 };
 
 const assurances = [

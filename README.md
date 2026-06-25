@@ -43,6 +43,34 @@ content/
 - **Type:** `Sora` for display headings, `Inter` for body (loaded with `next/font`).
 - Tune colors in one place: the `@theme` block in `globals.css`.
 
+## SEO
+
+SEO is wired in via Next.js metadata conventions:
+
+- **Sitemap** — [src/app/sitemap.ts](src/app/sitemap.ts) generates `/sitemap.xml`
+  from the static routes plus every blog post (with real `lastmod` dates).
+- **Robots** — [src/app/robots.ts](src/app/robots.ts) generates `/robots.txt`
+  (allows all, disallows `/api/`, points at the sitemap).
+- **Canonical URLs** on every page; **per-page** titles & descriptions.
+- **Open Graph image** — a branded 1200×630 card generated at build time by
+  [src/app/opengraph-image.tsx](src/app/opengraph-image.tsx).
+- **Structured data (JSON-LD)** — `Organization` + `WebSite` site-wide,
+  `Service` + `FAQPage` on the home page, `BlogPosting` on each article.
+- **Robots directives** (`index, follow`, large image previews for Googlebot).
+
+Set `NEXT_PUBLIC_SITE_URL` to your production origin so all of the above resolve
+to absolute URLs (see `.env.example`).
+
+### Submitting to Google
+
+1. Deploy with `NEXT_PUBLIC_SITE_URL` set to the live domain.
+2. Add the property in [Google Search Console](https://search.google.com/search-console)
+   and verify ownership (DNS record or the HTML-tag method).
+3. Under **Sitemaps**, submit `sitemap.xml`.
+4. Use **URL Inspection → Request indexing** for the homepage to speed up the
+   first crawl. Validate rich results with the
+   [Rich Results Test](https://search.google.com/test/rich-results).
+
 ## Adding a blog post
 
 The blog is file-based — **no CMS**. To publish, drop a Markdown file into `content/blog/`. The filename becomes the URL slug (`content/blog/my-post.md` → `/blog/my-post`).

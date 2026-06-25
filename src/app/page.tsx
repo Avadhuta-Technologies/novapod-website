@@ -13,7 +13,33 @@ import { HeroVisual } from "@/components/HeroVisual";
 import { WorkflowDiagram } from "@/components/WorkflowDiagram";
 import { FAQ } from "@/components/FAQ";
 import { CTASection } from "@/components/CTASection";
+import { JsonLd } from "@/components/JsonLd";
 import { trustPillars, useCases, homeFaqs } from "@/lib/content";
+import { site } from "@/lib/site";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaqs.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+};
+
+const serviceLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Document Reconciliation AI",
+  provider: { "@type": "Organization", name: site.name, url: site.url },
+  description: site.description,
+  areaServed: "Global",
+};
 
 const trustIndicators = [
   { label: "On-Prem or Private VPC Deployment", icon: Server },
@@ -25,6 +51,8 @@ const trustIndicators = [
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={serviceLd} />
+      <JsonLd data={faqLd} />
       {/* ---------------- Hero ---------------- */}
       <section className="relative overflow-hidden pt-14 sm:pt-20">
         <div className="bg-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]" />

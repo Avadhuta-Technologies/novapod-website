@@ -6,12 +6,14 @@ import { Container } from "@/components/ui";
 import { Markdown } from "@/components/Markdown";
 import { BlogCard } from "@/components/BlogCard";
 import { CTASection } from "@/components/CTASection";
+import { JsonLd } from "@/components/JsonLd";
 import {
   formatDate,
   getAllPosts,
   getPostBySlug,
   getPostSlugs,
 } from "@/lib/blog";
+import { site } from "@/lib/site";
 
 export function generateStaticParams() {
   return getPostSlugs().map((slug) => ({ slug }));
@@ -25,14 +27,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return { title: "Article not found" };
+  const url = `${site.url}/blog/${post.slug}`;
   return {
     title: post.title,
     description: post.description,
+    alternates: { canonical: `/blog/${post.slug}` },
+    authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
       description: post.description,
+      url,
       type: "article",
       publishedTime: post.date,
+      authors: [post.author],
+      tags: post.tags,
     },
   };
 }
@@ -50,8 +58,29 @@ export default async function BlogPostPage({
     .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
 
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { "@type": "Organization", name: post.author },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: { "@type": "ImageObject", url: `${site.url}/icon.svg` },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${site.url}/blog/${post.slug}`,
+    },
+    keywords: post.tags.join(", "),
+  };
+
   return (
     <>
+      <JsonLd data={articleLd} />
       <article>
         {/* Header */}
         <header className="relative overflow-hidden border-b border-ink-100 pt-14 pb-12 sm:pt-20 sm:pb-16">

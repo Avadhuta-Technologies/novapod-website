@@ -1,10 +1,17 @@
+// Set NEXT_PUBLIC_SITE_URL in the deploy environment (e.g. https://novapod.ai)
+// so canonical URLs, the sitemap, and OG tags resolve to the right origin.
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://novapod.ai"
+).replace(/\/$/, "");
+
 export const site = {
   name: "Novapod",
   tagline: "Document Reconciliation AI for regulated environments",
   description:
     "Novapod designs and builds document reconciliation AI that runs entirely inside your infrastructure — no external LLM APIs, full audit trails, human-in-the-loop validation.",
-  url: "https://novapod.ai",
+  url: SITE_URL,
   email: "hello@novapod.ai",
+  locale: "en_US",
   calendarUrl: "/contact",
 };
 

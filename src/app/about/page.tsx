@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Novapod builds custom document reconciliation AI for regulated organizations — security-first, auditable, and deployed entirely inside your own infrastructure.",
+  alternates: { canonical: "/about" },
 };
 
 const principles = [
